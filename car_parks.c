@@ -124,7 +124,7 @@ int create_parking_check(Park temp, ParksData* parksdata) {
 
 void destry_parking (Park* temp, int s_cars) {
 	destroy_car_hashtable(temp->cars, s_cars);
-	//clear_logcars_list(&temp->logcars);
+	clear_logcars_list(&temp->logcars);
 	free(temp->cars);
 	free(temp->name);
 	temp->name = NULL;
