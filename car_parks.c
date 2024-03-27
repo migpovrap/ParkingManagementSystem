@@ -162,7 +162,7 @@ int create_parking (char parkname[], int capacity, float price_15, float price_1
 	temp.cars = malloc((HASHTABLE_RATIO * capacity) * sizeof(Car*));
 	temp.logcars = NULL; //Iniciar a linkedlist logcars em NULL
 
-	for (int i = 0; i < INCREMENT; i++) {
+	for (int i = 0; i < (HASHTABLE_RATIO * capacity); i++) {
 		temp.cars[i] = NULL; //Inicia o array de ponteiros para carros em NULL
 	}	
 
