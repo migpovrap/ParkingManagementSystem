@@ -26,9 +26,9 @@ int check_date (date d) {
 }
 
 int check_time (time t) {
-    if (t.hours < 0 && t.hours > 23)
+    if (t.hours < 0 || t.hours > 23)
         return 1;
-    if (t.minutes < 0 && t.minutes > 59)
+    if (t.minutes < 0 || t.minutes > 59)
         return 1;
     return 0;
 }
