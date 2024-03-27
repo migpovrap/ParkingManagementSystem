@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "car_hashtable.h"
+#include <ctype.h>
 
 
 int validate_timedate (date d, time t, ParksData* parksdata) {
@@ -41,33 +42,28 @@ int validate_timedate (date d, time t, ParksData* parksdata) {
 }
 
 int number_plate_check (char temp[9]) {
+	int number_pair_count = 0;
+	int letter_pair_count = 0;
+
 	if (temp[2] != '-' || temp[5] != '-') {
 		printf("%s: invalid licence plate.\n",temp);
 		return 1;
 	}
-    
-	if (temp[0] >= 'A' && temp[1] >= 'A' && temp[0] <= 'Z' && temp[1] <= 'Z')
-		if (temp[3] >= '0' && temp[4] >= '0' && temp[3] <=  '9' && temp[4] <= '9') 
-			if (temp[6] >= '0' && temp[7] >= '0' && temp[6] <= '9' && temp[7] <= '9')
-				return 0;
-
-	if (temp[0] >= '0' && temp[1] >= '0' && temp[0] <= '9' && temp[1] <= '9')
-		if (temp[3] >= '0' && temp[4] >= '0' && temp[3] <= '9' && temp[4] <= '9')
-			if (temp[6] >= 'A' && temp[7] >= 'A' && temp[6] <= 'Z' && temp[7] <= 'Z')
-				return 0;
-
-	if (temp[0] >= '0' && temp[1] >= '0' && temp[0] <= '9' && temp[1] <= '9')
-		if (temp[3] >= 'A' && temp[4] >= 'A' && temp[3] <= 'Z' && temp[4] <= 'Z')
-			if (temp[6] >= '0' && temp[7] >= '0' && temp[6] <= '9' && temp[7] <= '9')
-				return 0;
-
-	if (temp[0] >= 'A' && temp[1] >= 'A' && temp[0] <= 'Z' && temp[1] <= 'Z')
-    	if (temp[3] >= '0' && temp[4] >= '0' && temp[3] <= '9' && temp[4] <= '9')
-      		if (temp[6] >= 'A' && temp[7] >= 'A' && temp[6] <= 'Z' && temp[7] <= 'Z')
-      			return 0;
-
-	printf("%s: invalid licence plate.\n",temp);    
-	return 1;
+    for (int i = 0; i < 9; i+=3) {
+		if (isupper(temp[i]) && isupper(temp[i+1])) {
+			letter_pair_count++;
+		} else if (isdigit(temp[i]) && isdigit(temp[i+1])) {
+			number_pair_count++;
+		} else {
+			printf("%s: invalid licence plate.\n", temp);
+			return 1;
+		}
+	}
+	if (number_pair_count > 2 || letter_pair_count > 2){
+		printf("%s: invalid licence plate.\n", temp);
+		return 1;
+	}
+	return 0;
 }
 //mt AA-00-AA\0
 
@@ -78,6 +74,7 @@ float parking_cost(long contatempo, float price_15, float price_15_1hour, float 
 	int minutes = 0;
 	int hour_15 = 0;
 	int min_15 = 0;
+	float parking_cost_no_days;
 
 	days = contatempo / 1440;
 	contatempo = contatempo % 1440;
@@ -93,7 +90,12 @@ float parking_cost(long contatempo, float price_15, float price_15_1hour, float 
 		min_15 += (minutes +14) / 15;
 	}
 
-	return (days*price_dailymax) + (hour_15*price_15_1hour) + (min_15*price_15);
+	parking_cost_no_days = (hour_15 * price_15_1hour) + (min_15 * price_15);
+
+	if (parking_cost_no_days > price_dailymax) {
+		parking_cost_no_days = price_dailymax;
+	}
+	return (days*price_dailymax) + parking_cost_no_days;
 }
 
 
@@ -305,7 +307,7 @@ void list_parking_alfa(ParksData* parksdata) {
   }
   
   for (int i = 0; i < parksdata->nparks; i++)
-	  printf("%s %d %d\n", parksdata->parks[parksort[i].parknumber].name, parksdata->parks[parksort[i].parknumber].maxcapacity, (parksdata->parks[parksort[i].parknumber].maxcapacity-parksdata->parks[parksort[i].parknumber].ncars));
+	  printf("%s\n", parksdata->parks[parksort[i].parknumber].name);
 	
 
 }
@@ -448,5 +450,13 @@ int list_cars_entries_exits (char mt[], ParksData* parksdata) {
 		printf("%s: no entries found in any parking.\n", mt);
 		return 1;
 	}
+	return 0;
+}
+
+int park_revenue_data(){
+	return 0;
+}
+
+int park_revenue_car(){
 	return 0;
 }
