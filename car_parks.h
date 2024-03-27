@@ -55,6 +55,6 @@ int add_car_to_park(char parkname[], char mt[], date di, time ti, ParksData* par
 int add_car_to_park_check(char parkname[], char mt[], date d, time t, ParksData* parksdata, int* parknumber);
 int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* parksdata);
 float parking_cost(long contatempo, float price_15, float price_15_1hour, float price_dailymax);
-
+int list_cars_entries_exits (char mt[], ParksData* parksdata);
 
 #endif

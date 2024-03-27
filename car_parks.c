@@ -3,7 +3,7 @@
 #include <string.h>
 #include "car_hashtable.h"
 
-//Isto não funciona que cena chata
+
 int validate_timedate (date d, time t, ParksData* parksdata) {
 	//printf("%d-%d-%d %d:%d\n", parksdata->ctime.d.day, parksdata->ctime.d.month, parksdata->ctime.d.year, parksdata->ctime.t.hours, parksdata->ctime.t.minutes);
 	
@@ -73,13 +73,22 @@ int number_plate_check (char temp[9]) {
 
 //Não parece estar a calcular o preco de forma correta
 float parking_cost(long contatempo, float price_15, float price_15_1hour, float price_dailymax) {
-	int days = contatempo/1440;
-	int hours = (contatempo - (days*1440)) / 60;
-	contatempo = (contatempo - (days*1440));
-	int minutes = (contatempo - (hours*60));
-	int min_15 = (minutes + 14)/15;
+	int days = 0;
+	int hours = 0;
+	int minutes = 0;
+	int hour_15 = 0;
+	int min_15 = 0;
 
-	return (days*price_dailymax) + (hours*price_15_1hour) + (min_15*price_15);
+	days = contatempo / 1440;
+	contatempo = contatempo % 1440;
+	hours = contatempo / 60;
+	minutes = contatempo - (60 * hours);
+
+	hour_15 = (minutes < 60) ? (minutes + 14) / 15 : 4;
+	minutes -= hour_15 * 15;
+	min_15 += (minutes + 14) / 15;
+
+	return (days*price_dailymax) + (hour_15*price_15_1hour) + (min_15*price_15);
 }
 
 
@@ -303,13 +312,18 @@ void exit_program(ParksData* parksdata) {
 }
 
 int check_car_exit_park (char parkname[], char mt[], date d, time t, ParksData* parksdata, int* parknumber) {
-	for (int i = 0; i < parksdata->nparks; i++)
-		if (strcmp(parkname, parksdata->parks[i].name) == 0)
+
+	for (int i = 0; i < parksdata->nparks; i++) {
+		if (strcmp(parksdata->parks[i].name, parkname) == 0) {
 			*parknumber = i;
-		else {
-			printf("%s: no such parking.\n", parkname);
-			return 1;
+			break;
 		}
+	}
+
+	if (*parknumber == -1) {
+		printf("%s: no such parking.\n", parkname); 
+		return 1;
+	}
 
 	if (number_plate_check(mt)) {
 		printf("%s: invalid license plate.\n", mt);
@@ -355,7 +369,7 @@ int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* park
 	}
   
 	add_car_to_end_list (&parksdata->parks[parknumber].logcars, exit_car);
-	//Pode ser necessario alterar a forma como é referenciado o carro, nas proximas linhas
+	
 	exit_car->exitdate = df;
 	exit_car->exittime = tf;
 
@@ -372,5 +386,62 @@ int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* park
 
 }
 
+int check_list_cars_entries_exits (char mt[]) {
+	if (number_plate_check(mt))
+		return 1;
+	
+	return 0;
+}
 
+int list_cars_entries_exits (char mt[], ParksData* parksdata) {
 
+	int state = -1;
+
+	if (check_list_cars_entries_exits(mt))
+		return 1;
+	
+	typedef struct {
+		int parknumber;
+		char *parkname;
+	} ParkSort;
+
+	ParkSort parksort[MAX_PARK];
+
+	for (int i = 0; i < parksdata->nparks; i++) {
+		parksort[i].parknumber = i;
+		parksort[i].parkname = parksdata->parks[i].name;
+	}
+  
+	for (int i = 0; i < parksdata->nparks; i++) {
+		for (int j = i+1; j < parksdata->nparks; j++) {
+			if (strcmp(parksort[i].parkname, parksort[j].parkname) > 0) {
+				ParkSort temp = parksort[i];
+				parksort[i] = parksort[j];
+				parksort[j] = temp;
+			}
+		}
+	}
+	
+	for (int i = 0; i < parksdata->nparks; i++) {
+
+		Car* car_hist = search_logcars_list(mt, &parksdata->parks[i].logcars);
+		while (car_hist != NULL) {
+			printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d\n",parksdata->parks[i].name, car_hist->entrydate.day, car_hist->entrydate.month, car_hist->entrydate.year, car_hist->entrytime.hours, car_hist->entrytime.minutes,
+			car_hist->exitdate.day, car_hist->exitdate.month, car_hist->exitdate.year, car_hist->exittime.hours, car_hist->exittime.minutes);
+			car_hist = search_logcars_list(mt, &car_hist->next);
+			state = 0;
+		}
+
+		Car* car_on_park = search_car_hashtable(parksdata->parks[i].cars, mt, parksdata->parks[i].s_cars);
+		if (car_on_park != NULL) {
+			printf("%s %02d-%02d-%04d %02d:%02d\n", parksdata->parks[i].name, car_on_park->entrydate.day,  car_on_park->entrydate.month,  car_on_park->entrydate.year, car_on_park->entrytime.hours, car_on_park->entrytime.minutes);
+			state = 0;
+		}
+	}
+
+	if ( state == -1) {
+		printf("%s: no entries found in any parking.\n", mt);
+		return 1;
+	}
+	return 0;
+}

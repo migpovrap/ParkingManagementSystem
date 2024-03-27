@@ -72,13 +72,12 @@ void read_command_e_s(char command,ParksData* parksdata) {
 }
 
 
-void read_comand_v(/*ParksData parksdata*/) {
+void read_comand_v(ParksData* parksdata) {
 	char mt[9];
 
 	scanf(" %8s", mt);
-
+	list_cars_entries_exits(mt, parksdata);
 	//Cal function para listar todas as entradas deste veiculo, passar o parksdata
-	printf("%s\n", mt);
 }
 
 
@@ -155,7 +154,7 @@ int main() {
 			read_command_e_s(command, &parksdata);
 
 		if (command == 'v')
-			read_comand_v(/*parksdata*/);
+			read_comand_v(&parksdata);
 
 		if (command == 'f')
 			read_comand_f(/*parksdata*/);
