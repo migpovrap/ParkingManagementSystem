@@ -83,10 +83,15 @@ float parking_cost(long contatempo, float price_15, float price_15_1hour, float 
 	contatempo = contatempo % 1440;
 	hours = contatempo / 60;
 	minutes = contatempo - (60 * hours);
-
-	hour_15 = (minutes < 60) ? (minutes + 14) / 15 : 4;
-	minutes -= hour_15 * 15;
-	min_15 += (minutes + 14) / 15;
+	
+	if (hours > 0) {
+		min_15 = 4;
+		hours--;
+		hour_15 = 4* hours;
+		hour_15 += (minutes +14) / 15;
+	} else {
+		min_15 += (minutes +14) / 15;
+	}
 
 	return (days*price_dailymax) + (hour_15*price_15_1hour) + (min_15*price_15);
 }
