@@ -424,17 +424,17 @@ int list_cars_entries_exits (char mt[], ParksData* parksdata) {
 	
 	for (int i = 0; i < parksdata->nparks; i++) {
 
-		Car* car_hist = search_logcars_list(mt, &parksdata->parks[i].logcars);
+		Car* car_hist = search_logcars_list(mt, &parksdata->parks[parksort[i].parknumber].logcars);
 		while (car_hist != NULL) {
-			printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d\n",parksdata->parks[i].name, car_hist->entrydate.day, car_hist->entrydate.month, car_hist->entrydate.year, car_hist->entrytime.hours, car_hist->entrytime.minutes,
+			printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d\n",parksdata->parks[parksort[i].parknumber].name, car_hist->entrydate.day, car_hist->entrydate.month, car_hist->entrydate.year, car_hist->entrytime.hours, car_hist->entrytime.minutes,
 			car_hist->exitdate.day, car_hist->exitdate.month, car_hist->exitdate.year, car_hist->exittime.hours, car_hist->exittime.minutes);
 			car_hist = search_logcars_list(mt, &car_hist->next);
 			state = 0;
 		}
 
-		Car* car_on_park = search_car_hashtable(parksdata->parks[i].cars, mt, parksdata->parks[i].s_cars);
+		Car* car_on_park = search_car_hashtable(parksdata->parks[parksort[i].parknumber].cars, mt, parksdata->parks[parksort[i].parknumber].s_cars);
 		if (car_on_park != NULL) {
-			printf("%s %02d-%02d-%04d %02d:%02d\n", parksdata->parks[i].name, car_on_park->entrydate.day,  car_on_park->entrydate.month,  car_on_park->entrydate.year, car_on_park->entrytime.hours, car_on_park->entrytime.minutes);
+			printf("%s %02d-%02d-%04d %02d:%02d\n", parksdata->parks[parksort[i].parknumber].name, car_on_park->entrydate.day,  car_on_park->entrydate.month,  car_on_park->entrydate.year, car_on_park->entrytime.hours, car_on_park->entrytime.minutes);
 			state = 0;
 		}
 	}
