@@ -33,15 +33,15 @@ void destroy_car_hashtable (Car* cars[], int size) {
         }
     }
 }
-//Quando não tem carros no parque gera um seg fault
+
 void clear_logcars_list (Car** list_head) {
     if (*list_head == NULL)
         return;
     Car* current_car = *list_head;
-    while (current_car->next != NULL) {
+    while (current_car != NULL) {
         Car* next_car = current_car->next; //Guardo o ponteiro para o próximo carro em next_car
         free(current_car); //Limpa a memória do carro atual
-       current_car = next_car;
+        current_car = next_car;
     }
     *list_head = NULL;
 }
