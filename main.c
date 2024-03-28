@@ -81,7 +81,7 @@ void read_comand_v(ParksData* parksdata) {
 }
 
 
-void read_comand_f(/*ParksData parksdata*/) {
+void read_comand_f(ParksData* parksdata) {
 	date d;
 	char buffer[65535];
 	char *parkname;
@@ -100,11 +100,10 @@ void read_comand_f(/*ParksData parksdata*/) {
 	parkname = realloc(parkname, strlen(parkname) + 1);
 
 	if (tipo == 1)
-		//Call function mostra faturação com um argumento, passar o parksdata
-		printf("Função 1 arg %s\n", parkname);
+		park_revenue_data(parkname, parksdata);
 	else if (tipo == 4)
-		printf("Função 2 arg %s %d-%d-%d\n", parkname, d.day, d.month, d.year);
-
+		park_revenue_car(parkname, parksdata, d);
+		
 	free(parkname);
 	parkname = NULL;
 }
@@ -157,7 +156,7 @@ int main() {
 			read_comand_v(&parksdata);
 
 		if (command == 'f')
-			read_comand_f(/*parksdata*/);
+			read_comand_f(&parksdata);
 
 		if (command == 'r')
 			read_comand_r(&parksdata);
