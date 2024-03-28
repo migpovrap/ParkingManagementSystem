@@ -233,7 +233,8 @@ int add_car_to_park(char parkname[], char mt[], date di, time ti, ParksData* par
 
 	strcpy(ncar->mt, mt);
 	ncar->entrydate = di;
-	ncar->entrytime =ti;
+	ncar->entrytime = ti;
+	ncar->cost = 0;
 
 	i = hash(mt, parksdata->parks[parknumber].s_cars);
 
@@ -383,11 +384,13 @@ int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* park
 	paidvalue = parking_cost(contatempo(exit_car->entrydate, exit_car->entrytime, df,tf),
 	parksdata->parks[parknumber].price_15, parksdata->parks[parknumber].price_15_1hour, parksdata->parks[parknumber].price_dailymax);
 
+	exit_car->cost = paidvalue;
+
 	parksdata->parks[parknumber].ncars--;
  
 	printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d %.2f\n", mt, exit_car->entrydate.day, exit_car->entrydate.month, exit_car->entrydate.year,
 	exit_car->entrytime.hours,exit_car->entrytime.minutes, exit_car->exitdate.day, exit_car->exitdate.month, exit_car->exitdate.year,
-	exit_car->exittime.hours, exit_car->exittime.minutes,paidvalue);
+	exit_car->exittime.hours, exit_car->exittime.minutes, exit_car->cost);
 
 	return 0;
 
@@ -453,10 +456,84 @@ int list_cars_entries_exits (char mt[], ParksData* parksdata) {
 	return 0;
 }
 
-int park_revenue_data(){
+int check_park_revenue_parkname(char parkname[], ParksData* parksdata, int* parknumber) {
+	for (int i = 0; i < parksdata->nparks; i++) {
+		if (strcmp(parksdata->parks[i].name, parkname) == 0) {
+			*parknumber = i;
+			return 0;
+		}
+	}
+	printf("%s: no such parking.\n", parkname);
+	return 1;
+}
+
+int park_revenue_data(char parkname[], ParksData* parksdata) {
+	int parknumber = -1;
+	float day_revenue = 0;
+	date temp;
+	if (check_park_revenue_parkname(parkname, parksdata, &parknumber))
+		return 1;
+
+	if (parknumber == -1)
+		return 1;
+
+	Car* car = parksdata->parks[parknumber].logcars;
+	temp.day = car->exitdate.day;
+	temp.month = car->exitdate.month;
+	temp.year = car->exitdate.year;
+
+	while (car != NULL) {
+		if (car->exitdate.day == temp.day && car->exitdate.month == temp.month && car->exitdate.year == temp.year) {
+			day_revenue += car->cost;
+		} else {
+			printf("%02d-%02d-%04d %.2f\n", temp.day, temp.month, temp.year, day_revenue);
+			temp.day = car->exitdate.day;
+			temp.month = car->exitdate.month;
+			temp.year = car->exitdate.year;
+			day_revenue = car->cost;
+		}
+		car = car->next;
+	}
+	printf("%02d-%02d-%04d %.2f\n", temp.day, temp.month, temp.year, day_revenue); // Da print ao ultimo carro da lista se este tiver uma data diferente
 	return 0;
 }
 
-int park_revenue_car(){
+int check_park_revenue_date(date d, ParksData* parksdata) {
+	if (check_date(d))
+		return 1;
+
+	if (d.year > parksdata->ctime.d.year)
+		return 1;
+
+	if (d.year == parksdata->ctime.d.year && d.month > parksdata->ctime.d.month)
+		return 1;
+
+	if (d.year == parksdata->ctime.d.year && d.month == parksdata->ctime.d.month && d.day > parksdata->ctime.d.day)
+		return 1;
+	
+	return 0;
+}
+
+int park_revenue_car(char parkname[], ParksData* parksdata, date d) {
+	int parknumber = -1;
+	
+	if (check_park_revenue_parkname(parkname, parksdata, &parknumber))
+		return 1;
+
+	if (parknumber == -1)
+		return 1;
+	
+	if (check_park_revenue_date(d, parksdata)) {
+		printf("invalid date.\n");
+		return 1;
+	}
+	
+	Car* car = parksdata->parks[parknumber].logcars;
+	while (car != NULL) {
+		if (car->exitdate.day == d.day && car->exitdate.month == d.month && car->exitdate.year == d.year) {
+			printf("%s %02d:%02d %.2f\n", car->mt, car->exittime.hours, car->exittime.minutes, car->cost);
+		}
+		car = car->next;
+	}
 	return 0;
 }

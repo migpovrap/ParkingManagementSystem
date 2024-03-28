@@ -18,6 +18,7 @@ typedef struct Car{
 	date entrydate;
 	time exittime;
 	date exitdate;
+	float cost;
 	struct Car* next; //Ponteiro para o próximo carro, forma de resolver colisões
 } Car;
 
@@ -56,5 +57,9 @@ int add_car_to_park_check(char parkname[], char mt[], date d, time t, ParksData*
 int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* parksdata);
 float parking_cost(long contatempo, float price_15, float price_15_1hour, float price_dailymax);
 int list_cars_entries_exits (char mt[], ParksData* parksdata);
+int park_revenue_data(char parkname[], ParksData* parksdata);
+int check_park_revenue_parkname(char parkname[], ParksData* parksdata, int* parknumber);
+int park_revenue_car(char parkname[], ParksData* parksdata, date d);
+int check_park_revenue_date(date d, ParksData* parksdata);
 
 #endif
