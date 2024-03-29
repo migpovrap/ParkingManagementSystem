@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "build",
+            "command": "gcc-13",
+            "args": [
+                "-g",
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-Wno-unused-result",
+                "-o",
+                "proj1",
+                "*.c"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

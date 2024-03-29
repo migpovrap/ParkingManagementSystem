@@ -6,32 +6,25 @@
 
 
 int validate_timedate (date d, time t, ParksData* parksdata) {
-	//printf("%d-%d-%d %d:%d\n", parksdata->ctime.d.day, parksdata->ctime.d.month, parksdata->ctime.d.year, parksdata->ctime.t.hours, parksdata->ctime.t.minutes);
-	
+		
 	if (check_date(d) || check_time(t)) {
-		//printf("1\n");
 		return 1;
 	}
 
 	if (d.year < parksdata->ctime.d.year) {
-		//printf("2\n");
 		return 1;
 	}
 
 	if (d.year == parksdata->ctime.d.year && d.month < parksdata->ctime.d.month) {
-		//printf("3\n");
 		return 1;
 	}
 
 	if (d.year == parksdata->ctime.d.year && d.month == parksdata->ctime.d.month && d.day < parksdata->ctime.d.day) {
-		//printf("4\n");
 		return 1;
 	}
 
-
 	if (parksdata->ctime.d.year == d.year && parksdata->ctime.d.month == d.month && parksdata->ctime.d.day == d.day) {
 		if (t.hours < parksdata->ctime.t.hours || (t.hours == parksdata->ctime.t.hours && t.minutes < parksdata->ctime.t.minutes)) {
-			//printf("5\n");
 			return 1;
 		}
 	}
@@ -142,6 +135,7 @@ void destry_parking (Park* temp, int s_cars) {
 	destroy_car_hashtable(temp->cars, s_cars);
 	clear_logcars_list(&temp->logcars);
 	free(temp->cars);
+	temp->cars = NULL;
 	free(temp->name);
 	temp->name = NULL;
 }
@@ -314,7 +308,6 @@ void list_parking_alfa(ParksData* parksdata) {
 }
 
 void exit_program(ParksData* parksdata) {
-
 	for (int i = 0; i < parksdata->nparks; i++)
 		destry_parking(&parksdata->parks[i], parksdata->parks[i].s_cars);
 }
@@ -362,22 +355,28 @@ int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* park
 	if (parknumber == -1)
 		return 1;
 
-	Car* exit_car = search_car_hashtable(parksdata->parks[parknumber].cars, mt, parksdata->parks[parknumber].s_cars); //Guarda o ponteiro do carro que queremos mover
-	//Remover os ponteiros da hash table para o carro pertendido e passa-lo para a linked list
-	i = hash(mt, parksdata->parks[parknumber].s_cars);
-
-	if (parksdata->parks[parknumber].cars[i] == exit_car)
-		parksdata->parks[parknumber].cars[i] = exit_car->next; //Se o carro que queremos é o primeiro da lista, pomos o ponteiro da hashtable para o proximo carro (ou seja o ponteiro da car->next)
-	else {
-		Car* prev_car = parksdata->parks[parknumber].cars[i];
-		while (prev_car->next != exit_car) {
-			prev_car = prev_car->next;
-		}
-		prev_car->next = exit_car->next;
-	}
-  
-	add_car_to_end_list (&parksdata->parks[parknumber].logcars, exit_car);
+	Car* exit_car = search_car_hashtable(parksdata->parks[parknumber].cars, mt, parksdata->parks[parknumber].s_cars);
 	
+	i = hash(mt, parksdata->parks[parknumber].s_cars);
+	Car* current = parksdata->parks[parknumber].cars[i];
+	Car* prev = NULL;
+
+	while (current != NULL) {
+		if (current == exit_car) {
+			if (prev == NULL) {
+				parksdata->parks[parknumber].cars[i] = current->next;
+			} else {
+				prev->next = current->next;
+			}
+			current->next = NULL;
+			break;
+		}
+		prev = current;
+		current = current->next;
+	}
+
+	add_car_to_end_list(&parksdata->parks[parknumber].logcars, exit_car);
+
 	exit_car->exitdate = df;
 	exit_car->exittime = tf;
 
@@ -393,7 +392,6 @@ int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* park
 	exit_car->exittime.hours, exit_car->exittime.minutes, exit_car->cost);
 
 	return 0;
-
 }
 
 int check_list_cars_entries_exits (char mt[]) {

@@ -56,9 +56,6 @@ void read_command_e_s(char command,ParksData* parksdata) {
 		sscanf(buffer, "%65534s %8s %d-%d-%d %d:%d", parkname, mt, &d.day, &d.month, &d.year, &t.hours, &t.minutes);
 	}
 
-
-
-
 	parkname = realloc(parkname, strlen(parkname) + 1);
 	if (command == 'e') {
 	 	add_car_to_park(parkname, mt, d, t, parksdata);
@@ -103,7 +100,7 @@ void read_comand_f(ParksData* parksdata) {
 		park_revenue_data(parkname, parksdata);
 	else if (tipo == 4)
 		park_revenue_car(parkname, parksdata, d);
-		
+
 	free(parkname);
 	parkname = NULL;
 }
