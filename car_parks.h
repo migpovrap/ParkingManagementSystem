@@ -42,6 +42,10 @@ typedef struct {
 
 } ParksData;
 
+typedef struct {
+		int parknumber;
+		char *parkname;
+	} ParkSort;
 
 int number_plate_check (char temp[9]);
 void list_parking (ParksData* parksdata);
@@ -61,5 +65,6 @@ int park_revenue_data(char parkname[], ParksData* parksdata);
 int check_park_revenue_parkname(char parkname[], ParksData* parksdata, int* parknumber);
 int park_revenue_car(char parkname[], ParksData* parksdata, date d);
 int check_park_revenue_date(date d, ParksData* parksdata);
+ParkSort* alfabetic_sort_parks (ParksData* parksdata);
 
 #endif

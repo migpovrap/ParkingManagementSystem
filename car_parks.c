@@ -152,10 +152,10 @@ int create_parking (char parkname[], int capacity, float price_15, float price_1
 	temp.name = (char *)malloc((strlen(parkname) + 1) * sizeof(char));
 
 	temp.cars = malloc((HASHTABLE_RATIO * capacity) * sizeof(Car*));
-	temp.logcars = NULL; //Iniciar a linkedlist logcars em NULL
+	temp.logcars = NULL; //Initialize the linkedlist logcars in NULL
 
 	for (int i = 0; i < (HASHTABLE_RATIO * capacity); i++) {
-		temp.cars[i] = NULL; //Inicia o array de ponteiros para carros em NULL
+		temp.cars[i] = NULL; //Initialize the array of pointers to cars in NULL
 	}	
 
 	strcpy(temp.name, parkname);	
@@ -165,7 +165,6 @@ int create_parking (char parkname[], int capacity, float price_15, float price_1
 		return 1;
 	} 
 
-	//Copia o conteudo de temp para parks, se calhar usar o memcopy
 	parksdata->parks[parksdata->nparks] = temp;
 
 	parksdata->nparks++;
@@ -239,7 +238,6 @@ int add_car_to_park(char parkname[], char mt[], date di, time ti, ParksData* par
 
 	printf("%s %d\n", parksdata->parks[parknumber].name, (parksdata->parks[parknumber].maxcapacity - parksdata->parks[parknumber].ncars));
 
-	//printf("%s\n", parksdata->parks[parknumber].cars[i]->mt); //Testes
 	return 0;
 }
 
@@ -262,12 +260,12 @@ int remove_parking (char parkname[], ParksData* parksdata) {
 
 	destry_parking(&parksdata->parks[parknumber], parksdata->parks[parknumber].s_cars);
 
-	//Caso o parque a apagar seja o ultimo da lista
+	//In case the park to delete is the last in the linkedlist logcars
 	if (parknumber == parksdata->nparks) {
 
 		parksdata->nparks--;
 		list_parking_alfa(parksdata);
-	//Caso o parque a apagar não esteja no final da lista
+	//In case the park to delete is not the last in the linkedlist logcars
 	} else {
 		for (int i = parknumber; i < parksdata->nparks - 1; i ++)
 			parksdata->parks[i] = parksdata->parks[i+1];
@@ -278,33 +276,34 @@ int remove_parking (char parkname[], ParksData* parksdata) {
 }
 
 
-void list_parking_alfa(ParksData* parksdata) {
-	typedef struct {
-		int parknumber;
-		char *parkname;
-	} ParkSort;
+ParkSort* alfabetic_sort_parks (ParksData* parksdata) {
 
-	ParkSort parksort[MAX_PARK];
+	ParkSort* parksort = malloc(parksdata->nparks * sizeof(ParkSort));
 
 	for (int i = 0; i < parksdata->nparks; i++) {
 		parksort[i].parknumber = i;
 		parksort[i].parkname = parksdata->parks[i].name;
 	}
-  
-  for (int i = 0; i < parksdata->nparks; i++) {
-    for (int j = i+1; j < parksdata->nparks; j++) {
-       if (strcmp(parksort[i].parkname, parksort[j].parkname) > 0) {
-        ParkSort temp = parksort[i];
-        parksort[i] = parksort[j];
-        parksort[j] = temp;
-      }
-    }
-  }
-  
-  for (int i = 0; i < parksdata->nparks; i++)
-	  printf("%s\n", parksdata->parks[parksort[i].parknumber].name);
-	
 
+	for (int i = 0; i < parksdata->nparks; i++) {
+		for (int j = i+1; j < parksdata->nparks; j++) {
+			if (strcmp(parksort[i].parkname, parksort[j].parkname) > 0) {
+				ParkSort temp = parksort[i];
+				parksort[i] = parksort[j];
+				parksort[j] = temp;
+			}
+		}
+	}
+	return parksort;
+}
+
+
+void list_parking_alfa(ParksData* parksdata) {
+	ParkSort* parkssorted = alfabetic_sort_parks(parksdata);
+
+	for (int i = 0; i < parksdata->nparks; i++)
+		printf("%s\n", parksdata->parks[parkssorted[i].parknumber].name);
+	free(parkssorted);
 }
 
 
@@ -351,7 +350,7 @@ int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* park
 
 	int parknumber = -1;
 	
-	float paidvalue;	//Se calhar guardar na estrutura carro??
+	float paidvalue;
 	if (check_car_exit_park(parkname, mt, df, tf, parksdata, &parknumber))
 		return 1;
 
@@ -394,49 +393,31 @@ int list_cars_entries_exits (char mt[], ParksData* parksdata) {
 	if (check_list_cars_entries_exits(mt))
 		return 1;
 	
-	typedef struct {
-		int parknumber;
-		char *parkname;
-	} ParkSort;
-
-	ParkSort parksort[MAX_PARK];
-
-	for (int i = 0; i < parksdata->nparks; i++) {
-		parksort[i].parknumber = i;
-		parksort[i].parkname = parksdata->parks[i].name;
-	}
-  
-	for (int i = 0; i < parksdata->nparks; i++) {
-		for (int j = i+1; j < parksdata->nparks; j++) {
-			if (strcmp(parksort[i].parkname, parksort[j].parkname) > 0) {
-				ParkSort temp = parksort[i];
-				parksort[i] = parksort[j];
-				parksort[j] = temp;
-			}
-		}
-	}
+	ParkSort* parksorted = alfabetic_sort_parks(parksdata);
 	
 	for (int i = 0; i < parksdata->nparks; i++) {
 
-		Car* car_hist = search_logcars_list(mt, &parksdata->parks[parksort[i].parknumber].logcars);
+		Car* car_hist = search_logcars_list(mt, &parksdata->parks[parksorted[i].parknumber].logcars);
 		while (car_hist != NULL) {
-			printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d\n",parksdata->parks[parksort[i].parknumber].name, car_hist->entrydate.day, car_hist->entrydate.month, car_hist->entrydate.year, car_hist->entrytime.hours, car_hist->entrytime.minutes,
+			printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d\n",parksdata->parks[parksorted[i].parknumber].name, car_hist->entrydate.day, car_hist->entrydate.month, car_hist->entrydate.year, car_hist->entrytime.hours, car_hist->entrytime.minutes,
 			car_hist->exitdate.day, car_hist->exitdate.month, car_hist->exitdate.year, car_hist->exittime.hours, car_hist->exittime.minutes);
 			car_hist = search_logcars_list(mt, &car_hist->next);
 			state = 0;
 		}
 
-		Car* car_on_park = search_car_hashtable(parksdata->parks[parksort[i].parknumber].cars, mt, parksdata->parks[parksort[i].parknumber].s_cars);
+		Car* car_on_park = search_car_hashtable(parksdata->parks[parksorted[i].parknumber].cars, mt, parksdata->parks[parksorted[i].parknumber].s_cars);
 		if (car_on_park != NULL) {
-			printf("%s %02d-%02d-%04d %02d:%02d\n", parksdata->parks[parksort[i].parknumber].name, car_on_park->entrydate.day,  car_on_park->entrydate.month,  car_on_park->entrydate.year, car_on_park->entrytime.hours, car_on_park->entrytime.minutes);
+			printf("%s %02d-%02d-%04d %02d:%02d\n", parksdata->parks[parksorted[i].parknumber].name, car_on_park->entrydate.day,  car_on_park->entrydate.month,  car_on_park->entrydate.year, car_on_park->entrytime.hours, car_on_park->entrytime.minutes);
 			state = 0;
 		}
 	}
 
 	if ( state == -1) {
 		printf("%s: no entries found in any parking.\n", mt);
+		free(parksorted);
 		return 1;
 	}
+	free(parksorted);
 	return 0;
 }
 
@@ -480,7 +461,7 @@ int park_revenue_data(char parkname[], ParksData* parksdata) {
 		}
 		car = car->next;
 	}
-	printf("%02d-%02d-%04d %.2f\n", temp.day, temp.month, temp.year, day_revenue); // Da print ao ultimo carro da lista se este tiver uma data diferente
+	printf("%02d-%02d-%04d %.2f\n", temp.day, temp.month, temp.year, day_revenue); //Prints the last car in the linkedlist logcars
 	return 0;
 }
 
