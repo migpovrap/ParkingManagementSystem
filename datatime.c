@@ -1,17 +1,24 @@
+/**
+ * Functions related to handeling dates and hours, cheking if a date or a hour is valid.
+ * @file datatime.c
+ * @author ist1109686
+*/
+
 #include "datetime.h"
-static int  diasdomes[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // Começa em zero de forma a que os indices correspondam aos meses do ano.
-date readdata() {
-    date d;
-    scanf("%d-%d-%d", &d.day, &d.month, &d.year);
-    return d;
-}   
 
-time readtime() {
-    time h;
-    scanf("%d:%d", &h.hours, &h.minutes);
-    return h;
-}
+/**
+ * @brief 
+ * The number of days that every month has.
+ * Starts at zero, so that the index of the days correspondt to months.
+ */
+static int  diasdomes[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+/**
+ * @brief 
+ * This function checks if a determinated date is valid (does not contemplate leap years).
+ * @param d The date struture to check
+ * @return (int) Returns zero if valid, one if invalid.
+ */
 int check_date (date d) {
     if (d.year < 0 || d.day <= 0) 
         return 1;
@@ -25,6 +32,12 @@ int check_date (date d) {
     return 0;
 }
 
+/**
+ * @brief 
+ * This function checks if a time is valid.
+ * @param t The struture for an hour (it stores hours and minutes).
+ * @return (int) Returns zero if valid, one if invalid. 
+ */
 int check_time (time t) {
     if (t.hours < 0 || t.hours > 23)
         return 1;
@@ -33,19 +46,28 @@ int check_time (time t) {
     return 0;
 }
 
+/**
+ * @brief 
+ * This function calculates the time in minutes that passed between to dates.
+ * @param di The inicial date.
+ * @param ti The inicial hours and minutes.
+ * @param df The final date.
+ * @param tf The final hours and minutes.
+ * @return (long) The time passed in minutes.
+ */
 long contatempo (date di, time ti, date df, time tf) {                   
 
     long ftime = 0;
     long itime = 0;
 
-    //Converte a data final em unix time
+    //Converts the final date in unixtime
     ftime = df.year * 365 * 24 * 60;
     for (int i = 1; i < df.month; i++)
         ftime += diasdomes[i] * 24 * 60;
     ftime += df.day * 24 * 60;
     ftime += (tf.hours * 60) + tf.minutes;
     
-    //Converte a data inicial em unix time
+    //Converts the inicial date in unixtime
     itime = di.year * 365 * 24 * 60;
     for (int i = 0; i < di.month; i++)
         itime += diasdomes[i] * 24 * 60;
