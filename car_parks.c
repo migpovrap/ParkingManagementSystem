@@ -4,7 +4,6 @@
 #include "car_hashtable.h"
 #include <ctype.h>
 
-
 int validate_timedate (date d, time t, ParksData* parksdata) {
 		
 	if (check_date(d) || check_time(t)) {
@@ -58,9 +57,8 @@ int number_plate_check (char temp[9]) {
 	}
 	return 0;
 }
-//mt AA-00-AA\0
 
-//Não parece estar a calcular o preco de forma correta
+
 float parking_cost(long contatempo, float price_15, float price_15_1hour, float price_dailymax) {
 	int days = 0;
 	int hours = 0;
@@ -175,6 +173,7 @@ int create_parking (char parkname[], int capacity, float price_15, float price_1
 	return 0;
 }
 
+
 int add_car_to_park_check(char parkname[], char mt[], date d, time t, ParksData* parksdata, int* parknumber) {
 
 
@@ -212,6 +211,7 @@ int add_car_to_park_check(char parkname[], char mt[], date d, time t, ParksData*
 
 	return 0;
 }
+
 
 int add_car_to_park(char parkname[], char mt[], date di, time ti, ParksData* parksdata) {
 	unsigned long i;
@@ -307,10 +307,12 @@ void list_parking_alfa(ParksData* parksdata) {
 
 }
 
+
 void exit_program(ParksData* parksdata) {
 	for (int i = 0; i < parksdata->nparks; i++)
 		destry_parking(&parksdata->parks[i], parksdata->parks[i].s_cars);
 }
+
 
 int check_car_exit_park (char parkname[], char mt[], date d, time t, ParksData* parksdata, int* parknumber) {
 
@@ -344,37 +346,19 @@ int check_car_exit_park (char parkname[], char mt[], date d, time t, ParksData* 
 	return 0;
 }
 
+
 int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* parksdata) {
 
 	int parknumber = -1;
-	unsigned long i;
+	
 	float paidvalue;	//Se calhar guardar na estrutura carro??
 	if (check_car_exit_park(parkname, mt, df, tf, parksdata, &parknumber))
 		return 1;
 
 	if (parknumber == -1)
 		return 1;
-
-	Car* exit_car = search_car_hashtable(parksdata->parks[parknumber].cars, mt, parksdata->parks[parknumber].s_cars);
 	
-	i = hash(mt, parksdata->parks[parknumber].s_cars);
-	Car* current = parksdata->parks[parknumber].cars[i];
-	Car* prev = NULL;
-
-	while (current != NULL) {
-		if (current == exit_car) {
-			if (prev == NULL) {
-				parksdata->parks[parknumber].cars[i] = current->next;
-			} else {
-				prev->next = current->next;
-			}
-			current->next = NULL;
-			break;
-		}
-		prev = current;
-		current = current->next;
-	}
-
+	Car* exit_car = remove_car_hashtable(parknumber, parksdata, mt);
 	add_car_to_end_list(&parksdata->parks[parknumber].logcars, exit_car);
 
 	exit_car->exitdate = df;
@@ -394,12 +378,14 @@ int car_exit_park(char parkname[], char mt[9], date df, time tf, ParksData* park
 	return 0;
 }
 
+
 int check_list_cars_entries_exits (char mt[]) {
 	if (number_plate_check(mt))
 		return 1;
 	
 	return 0;
 }
+
 
 int list_cars_entries_exits (char mt[], ParksData* parksdata) {
 
@@ -454,6 +440,7 @@ int list_cars_entries_exits (char mt[], ParksData* parksdata) {
 	return 0;
 }
 
+
 int check_park_revenue_parkname(char parkname[], ParksData* parksdata, int* parknumber) {
 	for (int i = 0; i < parksdata->nparks; i++) {
 		if (strcmp(parksdata->parks[i].name, parkname) == 0) {
@@ -464,6 +451,7 @@ int check_park_revenue_parkname(char parkname[], ParksData* parksdata, int* park
 	printf("%s: no such parking.\n", parkname);
 	return 1;
 }
+
 
 int park_revenue_data(char parkname[], ParksData* parksdata) {
 	int parknumber = -1;
@@ -496,6 +484,7 @@ int park_revenue_data(char parkname[], ParksData* parksdata) {
 	return 0;
 }
 
+
 int check_park_revenue_date(date d, ParksData* parksdata) {
 	if (check_date(d))
 		return 1;
@@ -511,6 +500,7 @@ int check_park_revenue_date(date d, ParksData* parksdata) {
 	
 	return 0;
 }
+
 
 int park_revenue_car(char parkname[], ParksData* parksdata, date d) {
 	int parknumber = -1;
