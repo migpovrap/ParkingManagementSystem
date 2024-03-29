@@ -71,3 +71,27 @@ Car* search_logcars_list (char mt[], Car** list_head) {
     }
     return NULL;
 }
+
+Car* remove_car_hashtable(int parknumber, ParksData* parksdata, char mt[9]) {
+	unsigned long i;
+	Car* exit_car = search_car_hashtable(parksdata->parks[parknumber].cars, mt, parksdata->parks[parknumber].s_cars);
+	
+	i = hash(mt, parksdata->parks[parknumber].s_cars);
+	Car* current = parksdata->parks[parknumber].cars[i];
+	Car* prev = NULL;
+
+	while (current != NULL) {
+		if (current == exit_car) {
+			if (prev == NULL) {
+				parksdata->parks[parknumber].cars[i] = current->next;
+			} else {
+				prev->next = current->next;
+			}
+			current->next = NULL;
+			break;
+		}
+		prev = current;
+		current = current->next;
+	}
+	return exit_car;
+} 
