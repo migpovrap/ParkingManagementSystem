@@ -1,5 +1,5 @@
 /**
- * Functions related to handeling dates and hours, cheking if a date or a hour is valid.
+ * Functions related to handling dates and hours, checking if a date or a hour is valid.
  * @file datatime.c
  * @author ist1109686
 */
@@ -9,13 +9,13 @@
 /**
  * @brief 
  * The number of days that every month has.
- * Starts at zero, so that the index of the days correspondt to months.
+ * Starts at zero, so that the index of the days correspondent to months.
  */
 static int  diasdomes[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 /**
  * @brief 
- * This function checks if a determinated date is valid (does not contemplate leap years).
+ * This function checks if a determined date is valid (does not contemplate leap years).
  * @param d The date struture to check
  * @return (int) Returns zero if valid, one if invalid.
  */
@@ -49,8 +49,8 @@ int check_time (time t) {
 /**
  * @brief 
  * This function calculates the time in minutes that passed between to dates.
- * @param di The inicial date.
- * @param ti The inicial hours and minutes.
+ * @param di The initial date.
+ * @param ti The initial hours and minutes.
  * @param df The final date.
  * @param tf The final hours and minutes.
  * @return (long) Returns the time passed in minutes.
@@ -67,7 +67,7 @@ long contatempo (date di, time ti, date df, time tf) {
     ftime += df.day * 24 * 60;
     ftime += (tf.hours * 60) + tf.minutes;
     
-    //Converts the inicial date in unixtime
+    //Converts the initial date in unixtime
     itime = di.year * 365 * 24 * 60;
     for (int i = 0; i < di.month; i++)
         itime += diasdomes[i] * 24 * 60;

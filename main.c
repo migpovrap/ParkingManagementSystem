@@ -10,7 +10,7 @@
 
 /**
  * @brief 
- * Function responsable for parsing the command p and calling the respective function, listing the parks no arguments or creating a park with arguments
+ * Function responsible for parsing the command p and calling the respective function, listing the parks no arguments or creating a park with arguments
  * @param parksdata The main data struture (where all data for the program is stored)
  */
 void read_command_p(ParksData* parksdata) {
@@ -51,7 +51,7 @@ void read_command_p(ParksData* parksdata) {
 
 /**
  * @brief 
- * Function responsable for parsing the command e or s and calling the respective function with their arguments
+ * Function responsible for parsing the command e or s and calling the respective function with their arguments
  * @param command The command that was used either 'e' or 's'
  * @param parksdata The main data struture (where all data for the program is stored)
  */
@@ -75,7 +75,7 @@ void read_command_e_s(char command,ParksData* parksdata) {
 
 	parkname = realloc(parkname, strlen(parkname) + 1);
 
-	if (command == 'e') { //If the commad called was 'e' it calls the function to add a car
+	if (command == 'e') { //If the command called was 'e' it calls the function to add a car
 	 	add_car_to_park(parkname, mt, d, t, parksdata);
 	} else { //If the command called was 's' it calls the function to exit the car
 		car_exit_park(parkname, mt, d, t, parksdata);
@@ -87,7 +87,7 @@ void read_command_e_s(char command,ParksData* parksdata) {
 
 /**
  * @brief 
- * Function responsable for parsing the command v and calling the function to list a specific cars entries and exits, with the correct arguments
+ * Function responsible for parsing the command v and calling the function to list a specific cars entries and exits, with the correct arguments
  * @param parksdata The main data struture (where all data for the program is stored)
  */
 void read_comand_v(ParksData* parksdata) {
@@ -99,7 +99,7 @@ void read_comand_v(ParksData* parksdata) {
 
 /**
  * @brief 
- * Function responsable for parsing the command f and calling the revenue listing functions, with the correct arguments
+ * Function responsible for parsing the command f and calling the revenue listing functions, with the correct arguments
  * @param parksdata The main data struture (where all data for the program is stored)
  */
 void read_comand_f(ParksData* parksdata) {
@@ -133,7 +133,7 @@ void read_comand_f(ParksData* parksdata) {
 
 /**
  * @brief 
- * Function responsable for parsing the command r and calling the remove park function, with the correct arguments
+ * Function responsible for parsing the command r and calling the remove park function, with the correct arguments
  * @param parksdata The main data struture (where all data for the program is stored)
  */
 void read_comand_r(ParksData* parksdata) {
@@ -160,7 +160,7 @@ void read_comand_r(ParksData* parksdata) {
 
 /**
  * @brief 
- * Main function declares the Parksdata sturture where all the data for the program is stored. It read the stdin for the commands the first letter (char) wich
+ * Main function declares the Parksdata structure where all the data for the program is stored. It read the stdin for the commands the first letter (char) which
  * indicates the command and call the pretended function that parses the command.
  * @return (int) Always returns 0. (exit code 0) 
  */
@@ -168,7 +168,7 @@ int main() {
 	char command; //Stores the command used for functions that have the same inputs.
 	ParksData parksdata;
 
-	//Iniziale some variables two zero that are stored in the parksdata struture
+	//Initialize some variables two zero that are stored in the parksdata struture
 	parksdata.nparks = 0;
 	parksdata.ctime.d.day = 0;
 	parksdata.ctime.d.month = 0;

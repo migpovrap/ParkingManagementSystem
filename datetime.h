@@ -2,7 +2,7 @@
  * @file datetime.h
  * @author ist1109686
  * @brief The header file for the datetime c file, 
- * containes all the data strutures related to date and time used in the program.
+ * contains all the data structures related to date and time used in the program.
  */
 
 #ifndef datetime_h
@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 /**
- * @brief The sturure that holds the time, hours and minutes.
+ * @brief The strucure that holds the time, hours and minutes.
  * 
  */
 typedef struct {
@@ -38,8 +38,6 @@ typedef struct {
 	date d;
 } CurrentTime;
 
-date readdata();
-time readtime();
 long contatempo (date di, time ti, date df, time tf);
 int check_date(date d);
 int check_time (time t);

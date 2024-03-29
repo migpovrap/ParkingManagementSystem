@@ -1,7 +1,7 @@
 /**
  * @file car_parks.h
  * @author ist1109686
- * @brief The header file for the c file that contains the main functions essencial for the program functionality 
+ * @brief The header file for the c file that contains the main functions essential for the program functionality 
  */
 #ifndef car_parks_h
 #define car_parks_h
@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-//The maximun number of parks in the system
+//The maximum number of parks in the system
 #define MAX_PARK 20
 //The ratio for creating the hashtable that stores the cars in the system
 #define HASHTABLE_RATIO 2
@@ -18,7 +18,7 @@
 #define BILLING_INTERVAL 15
 
 /**
- * @brief The sturture for cars in the system
+ * @brief The structure for cars in the system
  * 
  */
 typedef struct Car{
@@ -33,7 +33,7 @@ typedef struct Car{
 } Car;
 
 /**
- * @brief The sturutre for storing each park, in this struture the car hashtable and the history linkedlist have their poiters stored, each park has one
+ * @brief The structure for storing each park, in this struture the car hashtable and the history linkedlist have their pointers stored, each park has one
  * 
  */
 typedef struct {
@@ -41,7 +41,7 @@ typedef struct {
 	float price_15;
 	float price_15_1hour;
 	float price_dailymax;
-	int ncars; // Numero de carros que estão atualmente no parque
+	int ncars; // Number of cars in the park
 	Car** cars; //Pointer to a pointer of car that is used to create the dynamic array of the hashtable(a array of pointers to car)
 	Car* logcars; //Pointer for the head of the linkedlist 
 	int s_cars; //Size of the cars hashtable
@@ -49,7 +49,7 @@ typedef struct {
 } Park;
 
 /**
- * @brief Main strurure, it holds the number of parks in the system, a fixed size array for the parks structs and a CurrentTime struture
+ * @brief Main structure, it holds the number of parks in the system, a fixed size array for the parks structs and a CurrentTime struture
  * 
  */
 typedef struct {
@@ -60,7 +60,7 @@ typedef struct {
 } ParksData;
 
 /**
- * @brief A sort of temporary structure that is used to sort the parks in alfabetic order in a non desctituve way
+ * @brief A sort of temporary structure that is used to sort the parks in alfabetic order in a non destructive way
  * 
  */
 typedef struct {

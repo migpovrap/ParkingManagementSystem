@@ -12,7 +12,7 @@
 
 /**
  * @brief 
- * This function validate a date and time and checks if it is in the past (ageinst the current time data)
+ * This function validate a date and time and checks if it is in the past (against the current time data)
  * @param d The date structure to validate
  * @param t The time struture to validate
  * @param parksdata The main data struture (where all data for the program is stored)
@@ -81,7 +81,7 @@ int number_plate_check (char temp[9]) {
 
 /**
  * @brief 
- * This function is used to calculate the cost of a car staing in the park for a determinated time
+ * This function is used to calculate the cost of a car staying in the park for a determined time
  * @param contatempo The number of minutes that the car was in the park
  * @param price_15 The price that every 15 minutes are billed for the first hour
  * @param price_15_1hour The price that every 15 minutes are billed for the rest hours
@@ -103,7 +103,7 @@ float parking_cost(long contatempo, float price_15, float price_15_1hour, float 
 	minutes = contatempo - (60 * hours);
 	
 	//Calculates the number of billing periods 
-	if (hours > 0) { //If it as more than 0 hours then the first hour is billed at the apropriate rate
+	if (hours > 0) { //If it as more than 0 hours then the first hour is billed at the appropriate rate
 		min_15 = 4;
 		hours--;
 		hour_15 = 4 * hours; //The billing periods for the rest of the hours
@@ -113,9 +113,9 @@ float parking_cost(long contatempo, float price_15, float price_15_1hour, float 
 		min_15 += (minutes + (BILLING_INTERVAL - 1)) / BILLING_INTERVAL;
 	}
 
-	parking_cost_no_days = (hour_15 * price_15_1hour) + (min_15 * price_15); //Calculates the price whiot taking into account the number of days
+	parking_cost_no_days = (hour_15 * price_15_1hour) + (min_15 * price_15); //Calculates the price without taking into account the number of days
 
-	if (parking_cost_no_days > price_dailymax) { //If the cost of the hours is superior to the max of one day it is replaced wiht it
+	if (parking_cost_no_days > price_dailymax) { //If the cost of the hours is superior to the max of one day it is replaced with it
 		parking_cost_no_days = price_dailymax;
 	}
 
@@ -188,7 +188,7 @@ void destry_parking (Park* temp, int s_cars) {
 
 /**
  * @brief 
- * Function that creates a park it directly recives the data from the main parser functions
+ * Function that creates a park it directly receives the data from the main parser functions
  * @param parkname The name of the park
  * @param capacity The capacity of the park
  * @param price_15 The price that every 15 minutes are billed for the first hour
@@ -226,7 +226,7 @@ int create_parking (char parkname[], int capacity, float price_15, float price_1
 
 	parksdata->parks[parksdata->nparks] = temp; //Puts the new park in the parks array in the next position
 
-	parksdata->nparks++; //Incremeants the number of parks
+	parksdata->nparks++; //Increments the number of parks
 	
 	return 0;
 }
@@ -322,10 +322,10 @@ int add_car_to_park(char parkname[], char mt[], date di, time ti, ParksData* par
 
 /**
  * @brief 
- * Function used to delete a park from the system including all of the car entry and exit regetries
+ * Function used to delete a park from the system including all of the car entry and exit registries
  * @param parkname The name of the park
  * @param parksdata The main data struture (where all data for the program is stored)
- * @return (int) Returns 0 if succefull 1 if not 
+ * @return (int) Returns 0 if successful 1 if not 
  */
 int remove_parking (char parkname[], ParksData* parksdata) {
 
@@ -362,7 +362,7 @@ int remove_parking (char parkname[], ParksData* parksdata) {
 
 /**
  * @brief 
- * Function used to sort the parks in alfabetic order in a non desctituve way
+ * Function used to sort the parks in alphabetic order in a non destructive way
  * @param parksdata The main data struture (where all data for the program is stored)
  * @return (ParkSort*) Returns a pointer to a struture of ordered parks
  */
@@ -370,13 +370,13 @@ ParkSort* alfabetic_sort_parks (ParksData* parksdata) {
 
 	ParkSort* parksort = malloc(parksdata->nparks * sizeof(ParkSort));
 
-	//Copies the revelant data to the new struture from the main parksdata
+	//Copies the relevant data to the new struture from the main parksdata
 	for (int i = 0; i < parksdata->nparks; i++) {
 		parksort[i].parknumber = i;
 		parksort[i].parkname = parksdata->parks[i].name;
 	}
 
-	//Uses a bubble sort algorthm
+	//Uses a bubble sort algorithm
 	for (int i = 0; i < parksdata->nparks; i++) {
 		for (int j = i+1; j < parksdata->nparks; j++) {
 			if (strcmp(parksort[i].parkname, parksort[j].parkname) > 0) {
@@ -414,7 +414,7 @@ void exit_program(ParksData* parksdata) {
 
 /**
  * @brief 
- * Function used to validate the data used to regester a exit of a car in the system
+ * Function used to validate the data used to register a exit of a car in the system
  * @param parkname 
  * @param mt 
  * @param d 
@@ -457,7 +457,7 @@ int check_car_exit_park (char parkname[], char mt[], date d, time t, ParksData* 
 
 /**
  * @brief 
- * Function used to regester a exit of a car in the system
+ * Function used to register a exit of a car in the system
  * @param parkname The park name to where the car is going
  * @param mt The licence plate of the car 
  * @param d The date struture to validate
@@ -568,7 +568,7 @@ int check_park_revenue_parkname(char parkname[], ParksData* parksdata, int* park
  * Function used to print revenue per day of one park
  * @param parkname The name of the park
  * @param parksdata The main data struture (where all data for the program is stored)
- * @return (int) Returns 0 if sucesfful 1 if not 
+ * @return (int) Returns 0 if successful 1 if not 
  */
 int park_revenue_data(char parkname[], ParksData* parksdata) {
 	int parknumber = -1;
@@ -586,7 +586,7 @@ int park_revenue_data(char parkname[], ParksData* parksdata) {
 	temp.month = car->exitdate.month;
 	temp.year = car->exitdate.year;
 
-	//Goes truht the linkedlist and adds the bill of each one that matches the same data
+	//Goes truth the linkedlist and adds the bill of each one that matches the same data
 	while (car != NULL) {
 		if (car->exitdate.day == temp.day && car->exitdate.month == temp.month && car->exitdate.year == temp.year) {
 			day_revenue += car->cost;
@@ -631,8 +631,8 @@ int check_park_revenue_date(date d, ParksData* parksdata) {
  * Function used to print all the records of one park for one day
  * @param parkname The name of the park
  * @param parksdata The main data struture (where all data for the program is stored)
- * @param d The date to wich to print the revenue
- * @return int 
+ * @param d The date to which to print the revenue
+ * @return (int) Returns 0 if successful 1 if not 
  */
 int park_revenue_car(char parkname[], ParksData* parksdata, date d) {
 	int parknumber = -1;
@@ -648,7 +648,7 @@ int park_revenue_car(char parkname[], ParksData* parksdata, date d) {
 		return 1;
 	}
 	
-	//Goes thruh the linkedlist and prints every car that matches the same date
+	//Goes thru the linkedlist and prints every car that matches the same date
 	Car* car = parksdata->parks[parknumber].logcars;
 	while (car != NULL) {
 		if (car->exitdate.day == d.day && car->exitdate.month == d.month && car->exitdate.year == d.year) {

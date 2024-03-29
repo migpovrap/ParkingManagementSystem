@@ -1,5 +1,29 @@
 {
     "files.associations": {
         "datetime.h": "c"
-    }
+    },
+    "cSpell.words": [
+        "alfabetic",
+        "contatempo",
+        "dailymax",
+        "destry",
+        "entrydate",
+        "entrytime",
+        "exitdate",
+        "exittime",
+        "linkedlist",
+        "logcars",
+        "maxcapacity",
+        "ncar",
+        "ncars",
+        "nparks",
+        "paidvalue",
+        "parkname",
+        "parknumber",
+        "parksdata",
+        "parksort",
+        "parksorted",
+        "parkssorted",
+        "timedate"
+    ]
 }
