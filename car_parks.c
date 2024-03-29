@@ -100,13 +100,13 @@ int create_parking_check(Park temp, ParksData* parksdata) {
 
 	for (int j = 0; j < parksdata->nparks; j++) {
 		if (strcmp(temp.name, parksdata->parks[j].name) == 0) {
-		printf("%s: parking already exists.\n",temp.name);
+		printf("%s: parking already exists.\n", temp.name);
 		return 1;
 		}
 	}
 
 	if (temp.maxcapacity <= 0) {
-		printf("%d: invalid capacity.\n",temp.maxcapacity);
+		printf("%d: invalid capacity.\n", temp.maxcapacity);
 		return 1;
 	}
 
@@ -328,7 +328,7 @@ int check_car_exit_park (char parkname[], char mt[], date d, time t, ParksData* 
 	}
 
 	if (number_plate_check(mt)) {
-		printf("%s: invalid license plate.\n", mt);
+		printf("%s: invalid licence plate.\n", mt);
 		return 1;
 	}
 

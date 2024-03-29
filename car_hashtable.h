@@ -1,3 +1,10 @@
+/**
+ * @file car_hashtable.h
+ * @author ist1109686
+ * @brief The header files for the c file that contains the functions
+ * that operate the hashtable and the linkedlist used in this program.
+ */
+
 #ifndef car_hashtable
 #define car_hashtable
 

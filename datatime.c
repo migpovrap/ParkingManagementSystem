@@ -53,7 +53,7 @@ int check_time (time t) {
  * @param ti The inicial hours and minutes.
  * @param df The final date.
  * @param tf The final hours and minutes.
- * @return (long) The time passed in minutes.
+ * @return (long) Returns the time passed in minutes.
  */
 long contatempo (date di, time ti, date df, time tf) {                   
 
