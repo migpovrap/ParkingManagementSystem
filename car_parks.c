@@ -438,7 +438,7 @@ int check_car_exit_park (char parkname[], char mt[], date d, time t, ParksData* 
 	}
 
 	if (number_plate_check(mt)) {
-		printf("%s: invalid licence plate.\n", mt);
+		//printf("%s: invalid licence plate.\n", mt);
 		return 1;
 	}
 
