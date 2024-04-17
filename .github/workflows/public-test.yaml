@@ -24,8 +24,8 @@ jobs:
       run: make
       working-directory: ./public-tests
       
-Private-test:
-
+  Private-test:
+  
     runs-on: ubuntu-latest
 
     steps:
