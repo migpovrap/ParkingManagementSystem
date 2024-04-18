@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install build dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential python-is-python3 pip
+      run: sudo apt-get update && sudo apt-get install -y build-essential python-is-python3 pip lizard
     
     - name: Install Phyton dependencies
       run: |
@@ -33,7 +33,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: public_tests_log
-        path: ./public-tests/tests.logs
+        path: ./public-tests/tests.log
     
     - name: Upload log Private-tests
       uses: actions/upload-artifact@v2
