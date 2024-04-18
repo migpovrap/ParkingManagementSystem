@@ -43,13 +43,5 @@ jobs:
         path: ./private/tests.log
     
     - name: Run Lizard
-      run: lizard  -L 50 -T nloc=30 -C 12 -m *.c > lizard_log.log
-      continue-on-error: true
+      run: lizard  -L 50 -T nloc=30 -C 15 -m *.c
       working-directory: ./
-    
-    - name: Upload Lizard Log file
-      uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: Lizard_log
-        path: ./lizard_log.log
