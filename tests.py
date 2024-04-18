@@ -1,6 +1,7 @@
 import os
 import pytest
 import subprocess
+import time as t
 
 EXE = './proj1'
 
@@ -47,6 +48,8 @@ def test_public(test_file_public):
     :param test_file_public: the actual test file provived by the pytest parametrize
     :return: The result of the assert
     """
+    start_time = t.time() # The start time
+
     input_file = os.path.join(TEST_DIR_PUBLIC, test_file_public)
     output_file = os.path.join(TEST_DIR_PUBLIC, test_file_public.replace('.in', '.out'))
     diff_file = os.path.join(TEST_DIR_PUBLIC, test_file_public.replace('.in', '.diff'))
@@ -55,12 +58,15 @@ def test_public(test_file_public):
     command = f"{EXE} < {input_file} | diff - {output_file} > {diff_file}"
     returncode, output = run_command(command)
 
+    end_time = t.time() # The end time
+    time = end_time - start_time # The time passed
+
     # Write the result to the log file
     with open(LOG_FILE_PUBLIC, 'a') as log:
         if returncode == 0:
-            log.write(f"test {test_file_public} PASSED\n")
+            log.write(f"test {test_file_public} PASSED in {time} seconds\n")
         else:
-            log.write(f"test {test_file_public} FAILED\n")
+            log.write(f"test {test_file_public} FAILED in {time} seconds\n")
 
     assert returncode == 0, f"test {test_file_public} FAILED"
 
@@ -72,19 +78,24 @@ def test_private(test_file_private):
     :param test_file_public: the actual test file provived by the pytest parametrize
     :return: The result of the assert
     """
+    start_time = t.time() # The start time
+
     input_file = os.path.join(TEST_DIR_PRIVATE, test_file_private)
     output_file = os.path.join(TEST_DIR_PRIVATE, test_file_private.replace('.in', '.out'))
     diff_file = os.path.join(TEST_DIR_PRIVATE, test_file_private.replace('.in', '.diff'))
 
     # Run the command to generate the diff file
-    command = f"{EXE} < {input_file} | diff - {output_file} > {diff_file}"
-    returncode, output = run_command(command)
+    command = f"{EXE} < {input_file} | diff - {output_file} > {diff_file}" # Builds the command, first runs, then uses diff
+    returncode, output = run_command(command) #Runs the command built on the above line
+
+    end_time = t.time() # The end time
+    time = end_time - start_time # The time passed
 
     # Write the result to the log file
     with open(LOG_FILE_PRIVATE, 'a') as log:
         if returncode == 0:
-            log.write(f"test {test_file_private} PASSED\n")
+            log.write(f"test {test_file_private} PASSED in {time} seconds\n")
         else:
-            log.write(f"test {test_file_private} FAILED\n")
+            log.write(f"test {test_file_private} FAILED in {time} seconds\n")
 
     assert returncode == 0, f"test {test_file_private} FAILED"

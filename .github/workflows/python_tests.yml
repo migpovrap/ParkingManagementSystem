@@ -1,4 +1,4 @@
-name: tests
+name: Main_Tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Python_Tests:
+  Main_Tests:
 
     runs-on: ubuntu-latest
 
@@ -28,3 +28,25 @@ jobs:
     - name: Run tests
       run: pytest -v tests.py
       working-directory: ./
+    
+    - name: Upload log Public-tests
+      uses: actions/upload-artifact@v2
+      with:
+        name: public_tests_log
+        path: ./public-tests/tests.logs
+    
+    - name: Upload log Private-tests
+      uses: actions/upload-artifact@v2
+      with:
+        name: private_tests_log
+        path: ./private/tests.log
+    
+    - name: Run Lizzard
+      run: lizard  -L 50 -T nloc=30 -C 12 -m *.c > lizzard_log.log
+      working-directory: ./
+    
+    - name: Upload Lizzard Log file
+      uses: actions/upload-artifact@v2
+      with:
+        name: Lizzard_log
+        path: ./lizzard_log.log
