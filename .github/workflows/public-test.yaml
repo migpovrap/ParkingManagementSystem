@@ -1,4 +1,4 @@
-name: public-tests
+name: makefile_tests
 
 on:
   push:
