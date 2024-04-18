@@ -42,8 +42,8 @@ jobs:
         name: private_tests_log
         path: ./private/tests.log
     
-    - name: Run Lizzard
-      run: lizard  -L 50 -T nloc=30 -C 12 -m *.c > ./lizzard_log.log
+    - name: Run Lizard
+      run: lizard  -L 50 -T nloc=30 -C 12 -m *.c
       working-directory: ./
     
     - name: Upload Lizzard Log file
