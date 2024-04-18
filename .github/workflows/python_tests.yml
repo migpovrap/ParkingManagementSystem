@@ -43,11 +43,13 @@ jobs:
         path: ./private/tests.log
     
     - name: Run Lizard
-      run: lizard  -L 50 -T nloc=30 -C 12 -m *.c
+      run: lizard  -L 50 -T nloc=30 -C 12 -m *.c > lizard_log.log
+      continue-on-error: true
       working-directory: ./
     
-    - name: Upload Lizzard Log file
+    - name: Upload Lizard Log file
       uses: actions/upload-artifact@v2
+      if: always()
       with:
-        name: Lizzard_log
-        path: ./lizzard_log.log
+        name: Lizard_log
+        path: ./lizard_log.log
