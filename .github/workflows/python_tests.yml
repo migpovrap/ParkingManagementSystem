@@ -21,6 +21,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pytest
+        pip install lizard
 
     - name: Build with GCC
       run: gcc -O3 -Wall -Wextra -Werror -Wno-unused-result -o proj1 *.c
