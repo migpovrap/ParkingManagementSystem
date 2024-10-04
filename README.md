@@ -101,3 +101,8 @@ Below are the commands you can use with the Parking Management System:
    - **Output:** `<nome-parque>`
    - **Errors:**
      - `no such parking.` if the parking lot does not exist.
+
+
+## TeacherInstructions
+All rights reserved to Pedro Reis @ IST
+Copyright (C) 2021, Pedro Reis dos Santos

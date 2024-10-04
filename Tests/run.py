@@ -3,13 +3,13 @@ import pytest
 import subprocess
 import time as t
 
-EXE = './proj1'
+EXE = './parksystem'
 
-TEST_DIR_PUBLIC = './public-tests'
-LOG_FILE_PUBLIC = './public-tests/tests.log'
+TEST_DIR_PUBLIC = './Tests/public-tests'
+LOG_FILE_PUBLIC = './Tests/public-tests/tests.log'
 
-TEST_DIR_PRIVATE = './private'
-LOG_FILE_PRIVATE = './private/tests.log'
+TEST_DIR_PRIVATE = './Tests/private'
+LOG_FILE_PRIVATE = './Tests/private/tests.log'
 
 
 def run_command(command):
