@@ -2,8 +2,6 @@
 
 ### Parking Management System
 
-**Author:** Miguel Raposo
-
 ### Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
