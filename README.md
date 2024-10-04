@@ -20,7 +20,7 @@ The Parking Management System is a project developed in C for the IAED class. Th
 - **Parking Statistics:** Display statistics such as available spaces and parked vehicles.
 - **Logging:** Maintain logs of all parking activities.
 
-## Installation Instructions
+## Installation
 
 To set up the build environment for the Parking Management System, follow these steps:
 
@@ -48,3 +48,58 @@ To use the Parking Management System, run the compiled program:
 ```bash
 ./parksystem
 ```
+Below are the commands you can use with the Parking Management System:
+
+1. **Terminate the Program (`q`):**
+   - **Input:** `q`
+   - **Output:** None
+
+2. **Create or List Parking Lots (`p`):**
+   - **Input:** `p [<nome-parque> <capacidade> <valor-15> <valor-15-apos-1hora> <valor-max-diario>]`
+   - **Output without arguments:** `<nome-parque> <capacidade> <lugares-disponiveis>`
+   - **Output with arguments:** None
+   - **Errors:**
+     - `parking already exists.` if the parking lot name already exists.
+     - `invalid capacity.` if the capacity is ≤ 0.
+     - `invalid cost.` if any cost is ≤ 0 or costs are not increasing.
+     - `too many parks.` if the maximum number of parks is reached.
+
+3. **Register Vehicle Entry (`e`):**
+   - **Input:** `e <nome-parque> <matrícula> <data> <hora>`
+   - **Output:** `<nome-parque> <lugares-disponiveis>`
+   - **Errors:**
+     - `no such parking.` if the parking lot does not exist.
+     - `parking is full.` if the parking lot is full.
+     - `invalid licence plate.` if the license plate is invalid.
+     - `invalid vehicle entry.` if the vehicle is already inside a parking lot.
+     - `invalid date.` if the date/time is invalid or earlier than the last recorded entry/exit.
+
+4. **Register Vehicle Exit (`s`):**
+   - **Input:** `s <nome-parque> <matrícula> <data> <hora>`
+   - **Output:** `<matrícula> <data-entrada> <hora-entrada> <data-saída> <hora-saída> <valor-pago>`
+   - **Errors:**
+     - `no such parking.` if the parking lot does not exist.
+     - `invalid licence plate.` if the license plate is invalid.
+     - `invalid vehicle exit.` if the vehicle is not in the specified parking lot.
+     - `invalid date.` if the date/time is invalid or earlier than the last recorded entry/exit.
+
+5. **List Vehicle Entries and Exits (`v`):**
+   - **Input:** `v <matrícula>`
+   - **Output:** `<nome-parque> <data-entrada> <hora-entrada> <data-saída> <hora-saída>`
+   - **Errors:**
+     - `invalid licence plate.` if the license plate is invalid.
+     - `no entries found in any parking.` if there are no recorded entries for the license plate.
+
+6. **Show Parking Lot Billing (`f`):**
+   - **Input:** `f <nome-parque> [<data>]`
+   - **Output with one argument:** `<data> <valor-facturado>`
+   - **Output with two arguments:** `<matrícula> <hora-saída> <valor-pago>`
+   - **Errors:**
+     - `no such parking.` if the parking lot does not exist.
+     - `invalid date.` if the date is invalid or after the last recorded entry/exit.
+
+7. **Remove Parking Lot (`r`):**
+   - **Input:** `r <nome-parque>`
+   - **Output:** `<nome-parque>`
+   - **Errors:**
+     - `no such parking.` if the parking lot does not exist.
