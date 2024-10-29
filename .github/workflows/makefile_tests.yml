@@ -1,0 +1,54 @@
+name: MakeFile_Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  Main_Tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install build dependencies
+      run: sudo apt-get update && sudo apt-get install -y build-essential python-is-python3 pip
+    
+    - name: Install Phyton dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        pip install lizard
+
+    - name: Build with GCC
+      run: gcc -O3 -Wall -Wextra -Werror -Wno-unused-result -o proj1 *.c
+      
+    - name: Copy bin file to dir
+      run: cp ./proj1 ./Tests/
+    
+    - name: Run tests public
+      run: make
+      working-directory: ./Tests/public-tests
+    
+    - name: Run tests private
+      run: make
+      working-directory: ./Tests/private
+
+    - name: Upload log Public-tests
+      uses: actions/upload-artifact@v3
+      with:
+        name: public_tests_log
+        path: ./Tests/public-tests/tests.log
+    
+    - name: Upload log Private-tests
+      uses: actions/upload-artifact@v3
+      with:
+        name: private_tests_log
+        path: ./Tests/private/tests.log
+    
+    - name: Run Lizard
+      run: lizard  -L 50 -T nloc=30 -C 15 -m *.c
+      working-directory: ./
