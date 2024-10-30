@@ -37,6 +37,14 @@ jobs:
       run: make
       working-directory: ./Tests/private
 
+    - name: Make sh executable
+      run: chmod +x valgrind_tests.sh
+      working-directory: ./Tests
+    
+    - name: Run valgrind private tests
+      run: ./valgrind_tests.sh
+      working-directory: ./Tests
+
     - name: Upload log Public-tests
       uses: actions/upload-artifact@v3
       with:
@@ -48,6 +56,12 @@ jobs:
       with:
         name: private_tests_log
         path: ./Tests/private/tests.log
+
+    - name: Upload log Valgring tests
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: valgrind_tests
+        path: ./Tests/valgrind_output.log
     
     - name: Run Lizard
       run: lizard  -L 50 -T nloc=30 -C 15 -m *.c
