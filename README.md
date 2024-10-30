@@ -9,7 +9,7 @@
 - [Usage](#usage)
 
 ### Introduction
-The Parking Management System is a project developed in C for the IAED class. The system aims to manage parking spaces efficiently, allowing users to register, park, and retrieve their vehicles with ease.
+The Parking Management System is a project developed in C for the Introduction to Algorithms and Data Structures class. The system aims to manage parking spaces efficiently, allowing users to register, park, and retrieve their vehicles with ease.
 
 ### Features
 - **Vehicle Registration:** Register vehicles with specific details.
