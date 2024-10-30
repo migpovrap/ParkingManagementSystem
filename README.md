@@ -1,4 +1,4 @@
-## Projeto de IAED (LEIC-T 2024)
+## Projeto for Introduction to Algorithms and Data Structures class (LEIC-T 2024)
 
 ### Parking Management System
 
