@@ -27,20 +27,20 @@ jobs:
       run: gcc -O3 -Wall -Wextra -Werror -Wno-unused-result -o parksystem *.c
       
     - name: Run tests
-      run: pytest -v ./Tests/run.py
+      run: pytest -v ./tests/run.py
       working-directory: ./
     
     - name: Upload log Public-tests
       uses: actions/upload-artifact@v3
       with:
         name: public_tests_log
-        path: ./Tests/public-tests/tests.log
+        path: ./tests/public-tests/tests.log
     
     - name: Upload log Private-tests
       uses: actions/upload-artifact@v3
       with:
         name: private_tests_log
-        path: ./Tests/private/tests.log
+        path: ./tests/private/tests.log
     
     - name: Run Lizard
       run: lizard  -L 50 -T nloc=30 -C 15 -m *.c

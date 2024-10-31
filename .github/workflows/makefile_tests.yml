@@ -27,41 +27,41 @@ jobs:
       run: gcc -O3 -Wall -Wextra -Werror -Wno-unused-result -o proj1 *.c
       
     - name: Copy bin file to dir
-      run: cp ./proj1 ./Tests/
+      run: cp ./proj1 ./tests/
     
     - name: Run tests public
       run: make
-      working-directory: ./Tests/public-tests
+      working-directory: ./tests/public-tests
     
     - name: Run tests private
       run: make
-      working-directory: ./Tests/private
+      working-directory: ./tests/private
 
     - name: Make sh executable
       run: chmod +x valgrind_tests.sh
-      working-directory: ./Tests
+      working-directory: ./tests
     
     - name: Run valgrind private tests
       run: ./valgrind_tests.sh
-      working-directory: ./Tests
+      working-directory: ./tests
 
     - name: Upload log Public-tests
       uses: actions/upload-artifact@v3
       with:
         name: public_tests_log
-        path: ./Tests/public-tests/tests.log
+        path: ./tests/public-tests/tests.log
     
     - name: Upload log Private-tests
       uses: actions/upload-artifact@v3
       with:
         name: private_tests_log
-        path: ./Tests/private/tests.log
+        path: ./tests/private/tests.log
 
     - name: Upload log Valgring tests
       uses: actions/upload-artifact@v3.1.0
       with:
         name: valgrind_tests
-        path: ./Tests/valgrind_output.log
+        path: ./tests/valgrind_output.log
     
     - name: Run Lizard
       run: lizard  -L 50 -T nloc=30 -C 15 -m *.c

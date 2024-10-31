@@ -5,11 +5,11 @@ import time as t
 
 EXE = './parksystem'
 
-TEST_DIR_PUBLIC = './Tests/public-tests'
-LOG_FILE_PUBLIC = './Tests/public-tests/tests.log'
+TEST_DIR_PUBLIC = './tests/public-tests'
+LOG_FILE_PUBLIC = './tests/public-tests/tests.log'
 
-TEST_DIR_PRIVATE = './Tests/private'
-LOG_FILE_PRIVATE = './Tests/private/tests.log'
+TEST_DIR_PRIVATE = './tests/private'
+LOG_FILE_PRIVATE = './tests/private/tests.log'
 
 
 def run_command(command):
