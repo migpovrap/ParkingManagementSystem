@@ -136,7 +136,7 @@ float quarter_hourly_rate_after_first_hour, float max_daily_cost) {
 
 void list_parking (ParksData* parksdata) {
 	for (int i = 0; i < parksdata->num_parks; i++)
-		printf("%s %data %data\n",
+		printf("%s %d %d\n",
 		parksdata->parks[i].name, parksdata->parks[i].max_capacity,
 		(parksdata->parks[i].max_capacity - parksdata->parks[i].num_cars));
 }
@@ -151,7 +151,7 @@ int create_parking_check(Park temp, ParksData* parksdata) {
 	}
 
 	if (temp.max_capacity <= 0) {
-		printf("%data: invalid capacity.\n", temp.max_capacity);
+		printf("%d: invalid capacity.\n", temp.max_capacity);
 		return 1;
 	}
 
@@ -306,7 +306,7 @@ int add_car_to_park(char parkname[], char license_plate[], Date di, Time ti, Par
 
 	parksdata->parks[parknumber].num_cars++;
 
-	printf("%s %data\n", parksdata->parks[parknumber].name,
+	printf("%s %d\n", parksdata->parks[parknumber].name,
 	(parksdata->parks[parknumber].max_capacity - parksdata->parks[parknumber].num_cars));
 
 	return 0;

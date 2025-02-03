@@ -24,10 +24,10 @@
 typedef struct Car{
 
 	char license_plate[9];
-	time entry_time;
-	date entry_date;
-	time exit_time;
-	date exit_date;
+	Time entry_time;
+	Date entry_date;
+	Time exit_time;
+	Date exit_date;
 	float cost;
 	struct Car* next; //Pointer to the next car in the linkedlist.
 } Car;
@@ -151,7 +151,7 @@ int remove_parking (char parkname[], ParksData* parksdata);
  */
 void exit_program(ParksData* parksdata);
 
-int validate_timedate (date d, time t, ParksData* parksdata);
+int validate_timedate (Date d, Time t, ParksData* parksdata);
 
 /**
  * @brief 
@@ -164,10 +164,10 @@ int validate_timedate (date d, time t, ParksData* parksdata);
  * (where all data for the program is stored).
  * @return (int) Returns 0 if valid 1 if not.
  */
-int add_car_to_park(char parkname[], char license_plate[], date di, time ti,
+int add_car_to_park(char parkname[], char license_plate[], Date di, Time ti,
 ParksData* parksdata);
 
-int add_car_to_park_check(char parkname[], char license_plate[], date d, time t,
+int add_car_to_park_check(char parkname[], char license_plate[], Date d, Time t,
 ParksData* parksdata, int* parknumber);
 
 /**
@@ -181,7 +181,7 @@ ParksData* parksdata, int* parknumber);
  * (where all data for the program is stored).
  * @return (int) Return 0 if the data is valid 1 if not.
  */
-int car_exit_park(char parkname[], char license_plate[9], date df, time tf,
+int car_exit_park(char parkname[], char license_plate[9], Date df, Time tf,
 ParksData* parksdata);
 
 float parking_cost(long contatempo, float quarter_hourly_rate,
@@ -230,7 +230,7 @@ int* parknumber);
  * @param data The date to which to print the revenue.
  * @return (int) Returns 0 if successful 1 if not.
  */
-int park_revenue_car(char parkname[], ParksData* parksdata, date d);
+int park_revenue_car(char parkname[], ParksData* parksdata, Date d);
 
 /**
  * @brief 
@@ -241,7 +241,7 @@ int park_revenue_car(char parkname[], ParksData* parksdata, date d);
  * (where all data for the program is stored).
  * @return (int) Returns 0 if valid 1 if not.
  */
-int check_park_revenue_date(date d, ParksData* parksdata);
+int check_park_revenue_date(Date d, ParksData* parksdata);
 
 /**
  * @brief 
