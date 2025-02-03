@@ -13,13 +13,7 @@
  */
 static int  diasdomes[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-/**
- * @brief 
- * This function checks if a determined date is valid (does not contemplate leap years).
- * @param d The date struture to check
- * @return (int) Returns zero if valid, one if invalid.
- */
-int check_date (date d) {
+int check_date (Date d) {
     if (d.year < 0 || d.day <= 0) 
         return 1;
         
@@ -32,13 +26,7 @@ int check_date (date d) {
     return 0;
 }
 
-/**
- * @brief 
- * This function checks if a time is valid.
- * @param t The struture for an hour (it stores hours and minutes).
- * @return (int) Returns zero if valid, one if invalid. 
- */
-int check_time (time t) {
+int check_time (Time t) {
     if (t.hours < 0 || t.hours > 23)
         return 1;
     if (t.minutes < 0 || t.minutes > 59)
@@ -46,16 +34,7 @@ int check_time (time t) {
     return 0;
 }
 
-/**
- * @brief 
- * This function calculates the time in minutes that passed between to dates.
- * @param di The initial date.
- * @param ti The initial hours and minutes.
- * @param df The final date.
- * @param tf The final hours and minutes.
- * @return (long) Returns the time passed in minutes.
- */
-long contatempo (date di, time ti, date df, time tf) {                   
+long contatempo (Date di, Time ti, Date df, Time tf) {                   
 
     long ftime = 0;
     long itime = 0;

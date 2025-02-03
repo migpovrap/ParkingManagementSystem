@@ -3,7 +3,7 @@ import pytest
 import subprocess
 import time as t
 
-EXE = './parksystem'
+EXE = './src/parksystem'
 
 TEST_DIR_PUBLIC = './tests/public-tests'
 LOG_FILE_PUBLIC = './tests/public-tests/tests.log'
