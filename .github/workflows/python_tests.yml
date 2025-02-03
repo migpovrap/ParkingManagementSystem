@@ -31,13 +31,13 @@ jobs:
       working-directory: ./
     
     - name: Upload log Public-tests
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: public_tests_log
         path: ./tests/public-tests/tests.log
     
     - name: Upload log Private-tests
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: private_tests_log
         path: ./tests/private/tests.log
