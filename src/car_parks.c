@@ -236,7 +236,8 @@ ParksData* parksdata) {
  * (it is passed to the main add_car_to_park function).
  * @return (int) Returns 0 if the data is valid 1 if not.
  */
-int add_car_to_park_check(char parkname[], char license_plate[], Date data, Time time, ParksData* parksdata, int* parknumber) {
+int add_car_to_park_check(char parkname[], char license_plate[], Date data,
+Time time, ParksData* parksdata, int* parknumber) {
 
 	for (int i = 0; i < parksdata->num_parks; i++) {
 		if (strcmp(parksdata->parks[i].name, parkname) == 0) {
@@ -252,8 +253,7 @@ int add_car_to_park_check(char parkname[], char license_plate[], Date data, Time
 		return 1;
 	}
   
-	if (parksdata->parks[*parknumber].num_cars ==
-	parksdata->parks[*parknumber].max_capacity) {
+	if (parksdata->parks[*parknumber].num_cars == parksdata->parks[*parknumber].max_capacity) {
     	printf("%s: parking is full.\n", parkname);
     	return 1;
   	}
@@ -262,8 +262,7 @@ int add_car_to_park_check(char parkname[], char license_plate[], Date data, Time
     	return 1;
 
 	for (int i = 0; i < parksdata->num_parks; i++) {
-		if ((search_car_hashtable(parksdata->parks[i].cars,
-		license_plate, parksdata->parks[i].hashtable_size)) != NULL) {
+		if ((search_car_hashtable(parksdata->parks[i].cars, license_plate, parksdata->parks[i].hashtable_size)) != NULL) {
 			printf("%s: invalid vehicle entry.\n", license_plate);
 			return 1;
 		}
@@ -493,12 +492,8 @@ int list_cars_entries_exits (char license_plate[], ParksData* parksdata) {
 		Car* car_hist = search_logcars_list(license_plate,
 		&parksdata->parks[parksorted[i].parknumber].car_history);
 		while (car_hist != NULL) {
-			printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d\n",
-			parksdata->parks[parksorted[i].parknumber].name, car_hist->entry_date.day,
-			car_hist->entry_date.month, car_hist->entry_date.year,
-			car_hist->entry_time.hours, car_hist->entry_time.minutes, car_hist->exit_date.day,
-			car_hist->exit_date.month, car_hist->exit_date.year,
-			car_hist->exit_time.hours, car_hist->exit_time.minutes);
+			printf("%s %02d-%02d-%04d %02d:%02d %02d-%02d-%04d %02d:%02d\n", parksdata->parks[parksorted[i].parknumber].name, car_hist->entry_date.day, car_hist->entry_date.month, car_hist->entry_date.year,
+			car_hist->entry_time.hours, car_hist->entry_time.minutes, car_hist->exit_date.day, car_hist->exit_date.month, car_hist->exit_date.year, car_hist->exit_time.hours, car_hist->exit_time.minutes);
 			car_hist = search_logcars_list(license_plate, &car_hist->next);
 			state = 0;
 		}
@@ -507,10 +502,8 @@ int list_cars_entries_exits (char license_plate[], ParksData* parksdata) {
 		Car* car_on_park = search_car_hashtable(parksdata->parks[parksorted[i].parknumber].cars,
 		license_plate, parksdata->parks[parksorted[i].parknumber].hashtable_size);
 		if (car_on_park != NULL) {
-			printf("%s %02d-%02d-%04d %02d:%02d\n",
-			parksdata->parks[parksorted[i].parknumber].name, car_on_park->entry_date.day,
-			car_on_park->entry_date.month,  car_on_park->entry_date.year,
-			car_on_park->entry_time.hours, car_on_park->entry_time.minutes);
+			printf("%s %02d-%02d-%04d %02d:%02d\n", parksdata->parks[parksorted[i].parknumber].name, car_on_park->entry_date.day,
+			car_on_park->entry_date.month,  car_on_park->entry_date.year, car_on_park->entry_time.hours, car_on_park->entry_time.minutes);
 			state = 0;
 		}
 	}
